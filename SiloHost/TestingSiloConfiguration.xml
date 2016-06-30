@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OrleansConfiguration xmlns="urn:orleans">
+  <Globals>
+    <StreamProviders>
+      <Provider Type="Orleans.Providers.Streams.SimpleMessageStream.SimpleMessageStreamProvider"
+                Name="StreamProviding"
+                FireAndForgetDelivery="false"/>
+    </StreamProviders>
+
+    <StorageProviders>
+
+      <!-- Typical Developer settings: use memory storage -->
+      <Provider Type="Orleans.Storage.MemoryStorage" Name="PubSubStore" />
+      <Provider Type="Orleans.Storage.MemoryStorage" Name="Default" />
+      <Provider Type="Orleans.Storage.MemoryStorage" Name="NopRefresher" />
+
+      <!-- Debugging only: Use the SimpleSQLServerStorage -->
+      <!--<Provider Type="Orleans.StorageProviders.SimpleSQLServerStorage.SimpleSQLServerStorage" Name="PubSubStore"
+                ConnectionString="Data Source=.;Database=OrleansStorage;Integrated Security=True;"
+                UseJsonFormat="true" />
+      <Provider Type="Orleans.StorageProviders.SimpleSQLServerStorage.SimpleSQLServerStorage" Name="Default"
+                ConnectionString="Data Source=.;Database=OrleansStorage;Integrated Security=True;"
+                UseJsonFormat="true" />
+      <Provider Type="Orleans.StorageProviders.SimpleSQLServerStorage.SimpleSQLServerStorage" Name="NopRefresher"
+                ConnectionString="Data Source=.;Database=OrleansStorage;Integrated Security=True;"
+                UseJsonFormat="true" />-->
+
+
+      <!--<Provider Type="Orleans.Storage.MemoryStorage" Name="Persist" />-->
+      <!-- To use Azure storage, uncomment one of the following lines: -->
+      <!--<Provider Type="Orleans.Storage.AzureTableStorage" Name="AzureStore" DataConnectionString="UseDevelopmentStorage=true" />-->
+      <!--<Provider Type="Orleans.Storage.AzureTableStorage" Name="AzureStore" DataConnectionString="DefaultEndpointsProtocol=https;AccountName=MYACCOUNTNAME;AccountKey=MYACCOUNTKEY" />-->
+    </StorageProviders>
+
+
+    <!-- We are no longer using a bootstrapper to start a grain and link it to a ServiceBus-->
+    <!-- Leaving this section as a reference -->
+    <!--<BootstrapProviders>
+      <Provider Type="R5Ent.ProvingGroundGrain.ProvingGroundBootStrapper" Name="ProofActorProvider" />
+    </BootstrapProviders>-->
+
+    <!--<SystemStore SystemStoreType="SqlServer" DeploymentId="alex" DataConnectionString="Server=.;Database=Orleans;User ID=orleans;password=orleans;"/>-->
+
+
+    <SeedNode Address="localhost" Port="11111" />
+  </Globals>
+  <Defaults>
+    <Networking Address="localhost" Port="11111" />
+    <ProxyingGateway Address="localhost" Port="30000" />
+
+    <Tracing DefaultTraceLevel="Verbose2" TraceToFile="SILO-{1}.log" TraceToConsole="false" BulkMessageLimit="1000" />
+    
+    <Statistics MetricsTableWriteInterval="30s" PerfCounterWriteInterval="30s" LogWriteInterval="300s" WriteLogStatisticsToTable="true" StatisticsCollectionLevel="Info"/>
+  </Defaults>
+</OrleansConfiguration>
